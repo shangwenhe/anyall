@@ -14,19 +14,30 @@ export const executeJavaScriptTool: BrowserTool = {
   name: 'executeJavaScript',
   schema: {
     title: 'Execute JavaScript',
-    description: 'Execute JavaScript code in the current page context',
+    description: 'Execute JavaScript in the current page',
     inputSchema: z.object({
-      code: z.string().min(1, { message: 'JavaScript code is required' })
+      code: z.string(),
+      tabId: z.string().optional() // Add tabId parameter, optional for backward compatibility
     })
   },
-  implementation: async ({ code }: { code: string }) => {
+  implementation: async ({ code, tabId }) => {
     try {
-      console.log('Executing JavaScript:', code);
+      console.log('Executing JavaScript... code:', code, ' tabId:', tabId);
       const tabs = await chrome.List({ port: parseInt(getCdpPort()) });
       if (tabs.length === 0) {
         return { content: [{ type: 'text', text: 'No Chrome tabs found' }] };
       }
-      const tab = tabs[0];
+
+      // Find the specified tab by tabId, or use the first tab if tabId is not provided
+      const tab = tabId
+        ? tabs.find(t => t.id === tabId || t.id?.includes(tabId)) // Match tabId or partial tabId
+        : tabs[0];
+
+      // Verify tab exists
+      if (!tab) {
+        return { content: [{ type: 'text', text: `Tab with id '${tabId}' not found` }] };
+      }
+
       const client = await chrome({ target: tab, port: parseInt(getCdpPort()) });
       await client.Page.enable();
       const { result } = await client.Runtime.evaluate({
@@ -35,8 +46,7 @@ export const executeJavaScriptTool: BrowserTool = {
       });
       await client.close();
 
-      const resultString = JSON.stringify(result.value);
-      return { content: [{ type: 'text', text: resultString }] };
+      return { content: [{ type: 'text', text: JSON.stringify(result.value) }] };
     } catch (error) {
       const errorMessage = (error as Error).message;
       console.error('Error executing JavaScript:', errorMessage);

@@ -17,18 +17,28 @@ export const inputTextTool: BrowserTool = {
     description: 'Input text into a page element',
     inputSchema: z.object({
       selector: z.string(),
-      text: z.string()
+      text: z.string(),
+      tabId: z.string() // Add tabId parameter, optional for backward compatibility
     })
   },
-  implementation: async ({ selector, text }) => {
+  implementation: async ({ selector, text, tabId }) => {
     try {
-      console.log('Inputting text into element:', selector, ' text:', text);
+      console.log('Inputting text into element:', selector, ' text:', text, ' tabId:', tabId);
       const tabs = await chrome.List({ port: parseInt(getCdpPort()) });
       if (tabs.length === 0) {
         return { content: [{ type: 'text', text: 'No Chrome tabs found' }] };
       }
-      // Use the first tab
-      const tab = tabs[0];
+
+      // Find the specified tab by tabId, or use the first tab if tabId is not provided
+      const tab = tabId
+        ? tabs.find(t => t.id === tabId || t.id?.includes(tabId)) // Match tabId or partial tabId
+        : tabs[0];
+
+      // Verify tab exists
+      if (!tab) {
+        return { content: [{ type: 'text', text: `Tab with id '${tabId}' not found` }] };
+      }
+
       const client = await chrome({ target: tab, port: parseInt(getCdpPort()) });
       await client.Page.enable();
 

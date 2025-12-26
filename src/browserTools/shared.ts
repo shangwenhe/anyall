@@ -10,7 +10,7 @@ import { ChildProcess } from 'child_process';
 import * as z from 'zod';
 
 // Chrome browser path
-export const CHROME_PATH = '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary';
+export const CHROME_PATH = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 
 // Keep track of Chrome processes and CDP port (private module-level variables)
 let _chromeProcess: ChildProcess | null = null;

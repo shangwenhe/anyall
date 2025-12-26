@@ -15,16 +15,27 @@ export const backTool: BrowserTool = {
   schema: {
     title: 'Go Back',
     description: 'Navigate back in Chrome history',
-    inputSchema: z.object({})
+    inputSchema: z.object({
+      tabId: z.string().optional() // Add tabId parameter, optional for backward compatibility
+    })
   },
-  implementation: async () => {
+  implementation: async ({ tabId }) => {
     try {
-      console.log('Navigating back...');
+      console.log('Navigating back... tabId:', tabId);
       const tabs = await chrome.List({ port: parseInt(getCdpPort()) });
       if (tabs.length === 0) {
         return { content: [{ type: 'text', text: 'No Chrome tabs found' }] };
       }
-      const tab = tabs[0];
+
+      // Find the specified tab by tabId, or use the first tab if tabId is not provided
+      const tab = tabId
+        ? tabs.find(t => t.id === tabId || t.id?.includes(tabId)) // Match tabId or partial tabId
+        : tabs[0];
+
+      // Verify tab exists
+      if (!tab) {
+        return { content: [{ type: 'text', text: `Tab with id '${tabId}' not found` }] };
+      }
       const client = await chrome({ target: tab, port: parseInt(getCdpPort()) });
       await client.Page.enable();
       await client.Runtime.evaluate({

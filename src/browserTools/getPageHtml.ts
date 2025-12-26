@@ -14,24 +14,38 @@ export const getPageHtmlTool: BrowserTool = {
   name: 'getPageHtml',
   schema: {
     title: 'Get Page HTML',
-    description: 'Get the complete HTML of the current page',
-    inputSchema: z.object({})
+    description: 'Get the HTML content of the current page',
+    inputSchema: z.object({
+      tabId: z.string().optional() // Add tabId parameter, optional for backward compatibility
+    })
   },
-  implementation: async () => {
+  implementation: async ({ tabId }) => {
     try {
-      console.log('Getting page HTML...');
+      console.log('Getting page HTML... tabId:', tabId);
       const tabs = await chrome.List({ port: parseInt(getCdpPort()) });
       if (tabs.length === 0) {
         return { content: [{ type: 'text', text: 'No Chrome tabs found' }] };
       }
-      const tab = tabs[0];
+
+      // Find the specified tab by tabId, or use the first tab if tabId is not provided
+      const tab = tabId
+        ? tabs.find(t => t.id === tabId || t.id?.includes(tabId)) // Match tabId or partial tabId
+        : tabs[0];
+
+      // Verify tab exists
+      if (!tab) {
+        return { content: [{ type: 'text', text: `Tab with id '${tabId}' not found` }] };
+      }
+
       const client = await chrome({ target: tab, port: parseInt(getCdpPort()) });
       await client.Page.enable();
-      const { root } = await client.DOM.getDocument();
-      const { outerHTML } = await client.DOM.getOuterHTML({ nodeId: root.nodeId });
+      const { result } = await client.Runtime.evaluate({
+        expression: 'document.documentElement.outerHTML',
+        returnByValue: true
+      });
       await client.close();
 
-      return { content: [{ type: 'text', text: outerHTML }] };
+      return { content: [{ type: 'text', text: result.value as string }] };
     } catch (error) {
       const errorMessage = (error as Error).message;
       console.error('Error getting page HTML:', errorMessage);
