@@ -5,7 +5,7 @@ A simple MCP (Model Context Protocol) server for controlling Google Chrome brows
 ## Features
 
 - **openChrome**: Open Chrome browser to a specified URL
-- **closeChrome**: Close all Chrome browser instances
+- **closeChrome**: Close all Chrome browser instances  
 - **navigateUrl**: Open a new tab in Chrome with a specified URL
 
 ## Installation
@@ -31,14 +31,14 @@ bash /Users/rc/Code/github/shangwenhe/mcp/start.sh
 ## Configuration
 
 ### Chrome Path
-The default Chrome path is set to Chrome Canary:
+The default Chrome path is set to regular Chrome:
 ```
-/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary
+/Applications/Google Chrome.app/Contents/MacOS/Google Chrome
 ```
 
-To use regular Chrome, edit the `CHROME_PATH` constant in `src/index.ts`:
+To use Chrome Canary, edit the `CHROME_PATH` constant in `src/tools.ts`:
 ```typescript
-const CHROME_PATH = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const CHROME_PATH = '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary';
 ```
 
 ## Usage
@@ -59,15 +59,4 @@ The server exposes 3 MCP actions:
 
 ## Example Usage
 
-You can use any MCP client to interact with this server. For example:
-
-```bash
-# Send openChrome command
-echo '{ "action": "openChrome", "input": { "url": "https://google.com" } }' | node dist/index.js
-
-# Send closeChrome command  
-echo '{ "action": "closeChrome", "input": {} }' | node dist/index.js
-
-# Send navigateUrl command
-echo '{ "action": "navigateUrl", "input": { "url": "https://github.com" } }' | node dist/index.js
-```
+You can use any MCP client to interact with this server.

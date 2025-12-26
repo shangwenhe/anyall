@@ -1,156 +1,24 @@
 // Import MCP server and necessary modules
 import { createMcpExpressApp } from '@modelcontextprotocol/sdk/server/express.js';
-import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
-import { spawn, ChildProcess } from 'child_process';
 import { IncomingMessage, ServerResponse } from 'http';
-import * as z from 'zod';
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { browserTools } from './browserTools.js';
 
-// Chrome browser path (Canary version)
-const CHROME_PATH = '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary';
-
-// Keep track of Chrome processes
-let chromeProcess: ChildProcess | null = null;
-
-// Start MCP server
 function getServer() {
-    // Create MCP server instance
-    const server = new McpServer({
-        name: 'Chrome Browser Controller',
-        version: '1.0.0',
-        description: 'MCP Service to control Chrome browser'
-    });
+  // Create MCP server instance
+  const server = new McpServer({
+    name: 'Chrome Browser Controller',
+    version: '1.0.1',
+    description: 'MCP Service to control Chrome browser'
+  });
 
-    // Register openChrome tool
-    server.registerTool(
-        'openChrome',
-        {
-            title: 'Open Chrome Browser',
-            description: 'Open Chrome browser to the specified URL',
-            inputSchema: z.object({
-                url: z.string().url({ message: 'Please provide a valid URL' }).default('about:blank')
-            })
-        },
-        async ({ url }) => {
-            try {
-                if (chromeProcess) {
-                    console.log('Chrome is already running, opening new tab...');
-                    const newTabProcess = spawn(CHROME_PATH, ['--new-tab', url], {
-                        detached: true,
-                        stdio: 'ignore'
-                    });
-                    newTabProcess.unref();
-                    
-                    return {
-                        content: [{ type: 'text', text: `New tab opened in existing Chrome process: ${url}` }]
-                    };
-                }
+  // Register all tools from the browserTools array
+  browserTools.forEach(tool => {
+    server.registerTool(tool.name, tool.schema, tool.implementation as any);
+  });
 
-                // Open new Chrome process
-                console.log('Opening new Chrome process...');
-                chromeProcess = spawn(CHROME_PATH, [url], {
-                    detached: true,
-                    stdio: 'ignore'
-                });
-
-                chromeProcess.unref();
-
-                // Set up exit handler
-                chromeProcess.on('exit', () => {
-                    console.log('Chrome process exited');
-                    chromeProcess = null;
-                });
-
-                return {
-                    content: [{ type: 'text', text: `Chrome opened successfully to: ${url}` }]
-                };
-            } catch (error) {
-                const errorMessage = (error as Error).message;
-                console.error('Error opening Chrome:', errorMessage);
-                return {
-                    content: [{ type: 'text', text: `Failed to open Chrome: ${errorMessage}` }]
-                };
-            }
-        }
-    );
-
-    // Register closeChrome tool
-    server.registerTool(
-        'closeChrome',
-        {
-            title: 'Close Chrome Browser',
-            description: 'Close all Chrome browser instances',
-            inputSchema: z.object({})
-        },
-        async () => {
-            try {
-                if (chromeProcess) {
-                    console.log('Killing Chrome process...');
-                    // On macOS, we need to kill the process differently
-                    spawn('pkill', ['-f', 'Google Chrome Canary'], {
-                        detached: true,
-                        stdio: 'ignore'
-                    });
-                    chromeProcess = null;
-                } else {
-                    // Try to close any Chrome Canary instances
-                    console.log('Closing all Chrome Canary instances...');
-                    spawn('pkill', ['-f', 'Google Chrome Canary'], {
-                        detached: true,
-                        stdio: 'ignore'
-                    });
-                }
-
-                return {
-                    content: [{ type: 'text', text: 'All Chrome instances closed successfully' }]
-                };
-            } catch (error) {
-                const errorMessage = (error as Error).message;
-                console.error('Error closing Chrome:', errorMessage);
-                return {
-                    content: [{ type: 'text', text: `Failed to close Chrome: ${errorMessage}` }]
-                };
-            }
-        }
-    );
-
-    // Register navigateUrl tool
-    server.registerTool(
-        'navigateUrl',
-        {
-            title: 'Navigate to URL',
-            description: 'Open a new tab in Chrome with the specified URL',
-            inputSchema: z.object({
-                url: z.string().url({ message: 'Please provide a valid URL' })
-            })
-        },
-        async ({ url }) => {
-            try {
-                console.log('Navigating to URL:', url);
-                
-                // Open new tab with the URL (this works reliably on macOS)
-                const tabProcess = spawn(CHROME_PATH, ['--new-tab', url], {
-                    detached: true,
-                    stdio: 'ignore'
-                });
-                
-                tabProcess.unref();
-                
-                return {
-                    content: [{ type: 'text', text: `URL opened in new tab: ${url}` }]
-                };
-            } catch (error) {
-                const errorMessage = (error as Error).message;
-                console.error('Error navigating URL:', errorMessage);
-                return {
-                    content: [{ type: 'text', text: `Failed to navigate URL: ${errorMessage}` }]
-                };
-            }
-        }
-    );
-
-    return server;
-
+  return server;
 }
 
 const app = createMcpExpressApp();
