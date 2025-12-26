@@ -2,7 +2,7 @@
 import { createMcpExpressApp } from '@modelcontextprotocol/sdk/server/express.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import { browserTools } from './browserTools.js';
+import { browserTools } from './browserTools';
 import { Request, Response } from 'express';
 
 // Create MCP server instance
