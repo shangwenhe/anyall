@@ -63,7 +63,16 @@ const Keyboard: React.FC<KeyboardProps> = ({
               className={getKeyClass(key)}
               data-key={key.value}
             >
-              <span className="key-value">{key.value}</span>
+              <div className="key-value">
+                {key.value.match(/[a-z]/) ? (
+                  <>
+                    <span className="key-value-uppercase">{key.value.toUpperCase()}</span>
+                    <span className="key-value-lowercase">{key.value}</span>
+                  </>
+                ) : (
+                  key.value
+                )}
+              </div>
               <span className="key-finger">{FINGER_NAMES[key.finger]}</span>
             </div>
           ))}
