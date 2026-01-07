@@ -56,6 +56,15 @@
   margin-bottom: -16%;
 }
 
+.key-indicator {
+  position: absolute;
+  bottom: 25px;
+  width: 10px;
+  height: 2px;
+  background-color: #333;
+  border-radius: 50%;
+}
+
 .key-finger {
   font-size: 12px;
   color: #666;

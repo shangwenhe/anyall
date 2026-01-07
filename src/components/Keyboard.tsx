@@ -72,6 +72,9 @@ const Keyboard: React.FC<KeyboardProps> = ({
                 ) : (
                   key.value
                 )}
+                {['f', 'j'].includes(key.value) && (
+                  <span className="key-indicator"></span>
+                )}
               </div>
               <span className="key-finger">{FINGER_NAMES[key.finger]}</span>
             </div>

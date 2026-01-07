@@ -84,7 +84,13 @@ const TypingPractice: React.FC<TypingPracticeProps> = ({
       setStartTime(Date.now());
     }
 
-    if (isPracticeComplete) return;
+    if (isPracticeComplete) {
+      // 练习已完成，立即清除所有高亮
+      setHighlightedKey(undefined);
+      setCorrectKey(undefined);
+      setIncorrectKey(undefined);
+      return;
+    }
 
     setHighlightedKey(e.key);
 
@@ -100,7 +106,8 @@ const TypingPractice: React.FC<TypingPracticeProps> = ({
   const handleKeyUp = (e: React.KeyboardEvent) => {
     const key = e.key;
 
-    if (key.length === 1 && userInput.length < targetText.length) {
+    // 只有在练习进行中且还有字符需要输入时才显示高亮
+    if (!isPracticeComplete && key.length === 1 && userInput.length < targetText.length) {
       const expectedKey = targetText[userInput.length];
       if (key === expectedKey) {
         setCorrectKey(key);
@@ -109,6 +116,11 @@ const TypingPractice: React.FC<TypingPracticeProps> = ({
         setIncorrectKey(key);
         setCorrectKey(undefined);
       }
+    } else {
+      // 练习已完成或输入超出范围，立即清除所有高亮
+      setCorrectKey(undefined);
+      setIncorrectKey(undefined);
+      setHighlightedKey(undefined);
     }
   };
 
@@ -141,6 +153,10 @@ const TypingPractice: React.FC<TypingPracticeProps> = ({
     // Check if practice is complete
     if (userInput.length === targetText.length) {
       setIsPracticeComplete(true);
+      // 立即清除所有按键高亮
+      setCorrectKey(undefined);
+      setIncorrectKey(undefined);
+      setHighlightedKey(undefined);
       const record: PracticeRecord = {
         id: Date.now().toString(),
         date: new Date().toISOString(),
