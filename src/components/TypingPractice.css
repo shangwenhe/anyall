@@ -47,11 +47,11 @@
 }
 
 .stat-value.correct {
-  color: #4caf50;
+  color: var(--success-color);
 }
 
 .stat-value.incorrect {
-  color: #f44336;
+  color: var(--error-color);
 }
 
 .text-display {
@@ -85,15 +85,15 @@
 }
 
 .char.correct {
-  color: #4caf50;
+  color: var(--success-color);
   background-color: rgba(76, 175, 80, 0.1);
 }
 
 .char.incorrect {
-  color: #f44336;
+  color: var(--error-color);
   background-color: rgba(244, 67, 54, 0.1);
   text-decoration: underline;
-  text-decoration-color: #f44336;
+  text-decoration-color: var(--error-color);
   text-decoration-thickness: 2px;
 }
 

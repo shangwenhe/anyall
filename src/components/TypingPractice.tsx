@@ -43,27 +43,6 @@ const TypingPractice: React.FC<TypingPracticeProps> = ({
     inputRef.current?.focus();
   };
 
-  // Handle composition start (Chinese input method starts)
-  const handleCompositionStart = () => {
-    if (!isPracticeStarted) {
-      setIsPracticeStarted(true);
-      setStartTime(Date.now());
-    }
-  };
-
-  // Handle composition end (Chinese input method completes)
-  const handleCompositionEnd = (e: React.CompositionEvent) => {
-    if (isPracticeComplete) return;
-
-    const composedText = e.data;
-    if (composedText) {
-      setUserInput((prev) => {
-        const newInput = prev + composedText;
-        return newInput.slice(0, targetText.length);
-      });
-    }
-  };
-
   // Handle input change
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!isPracticeStarted) {
@@ -85,7 +64,6 @@ const TypingPractice: React.FC<TypingPracticeProps> = ({
     }
 
     if (isPracticeComplete) {
-      // 练习已完成，立即清除所有高亮
       setHighlightedKey(undefined);
       setCorrectKey(undefined);
       setIncorrectKey(undefined);
@@ -94,7 +72,6 @@ const TypingPractice: React.FC<TypingPracticeProps> = ({
 
     setHighlightedKey(e.key);
 
-    // Clear highlights after a short delay
     setTimeout(() => {
       setHighlightedKey(undefined);
       setCorrectKey(undefined);
@@ -106,7 +83,6 @@ const TypingPractice: React.FC<TypingPracticeProps> = ({
   const handleKeyUp = (e: React.KeyboardEvent) => {
     const key = e.key;
 
-    // 只有在练习进行中且还有字符需要输入时才显示高亮
     if (!isPracticeComplete && key.length === 1 && userInput.length < targetText.length) {
       const expectedKey = targetText[userInput.length];
       if (key === expectedKey) {
@@ -117,7 +93,6 @@ const TypingPractice: React.FC<TypingPracticeProps> = ({
         setCorrectKey(undefined);
       }
     } else {
-      // 练习已完成或输入超出范围，立即清除所有高亮
       setCorrectKey(undefined);
       setIncorrectKey(undefined);
       setHighlightedKey(undefined);
@@ -150,10 +125,8 @@ const TypingPractice: React.FC<TypingPracticeProps> = ({
       incorrect: incorrectCount,
     });
 
-    // Check if practice is complete
     if (userInput.length === targetText.length) {
       setIsPracticeComplete(true);
-      // 立即清除所有按键高亮
       setCorrectKey(undefined);
       setIncorrectKey(undefined);
       setHighlightedKey(undefined);
@@ -179,34 +152,7 @@ const TypingPractice: React.FC<TypingPracticeProps> = ({
 
   return (
     <div className="typing-practice">
-      <div className="practice-header">
-        <h2>打字练习</h2>
-        <p>请准确输入下方文本</p>
-      </div>
-
-      <div className="practice-stats">
-        <div className="stat-item">
-          <span className="stat-label">速度</span>
-          <span className="stat-value">{stats.wpm} WPM</span>
-        </div>
-        <div className="stat-item">
-          <span className="stat-label">准确率</span>
-          <span className="stat-value">{stats.accuracy}%</span>
-        </div>
-        <div className="stat-item">
-          <span className="stat-label">正确</span>
-          <span className="stat-value correct">{stats.correct}</span>
-        </div>
-        <div className="stat-item">
-          <span className="stat-label">错误</span>
-          <span className="stat-value incorrect">{stats.incorrect}</span>
-        </div>
-      </div>
-
-      <div
-        className="text-display"
-        onClick={handleTextDisplayClick}
-      >
+      <div className="text-display" onClick={handleTextDisplayClick}>
         <div className="target-text">
           {targetText.split('').map((char, index) => (
             <span
@@ -228,13 +174,29 @@ const TypingPractice: React.FC<TypingPracticeProps> = ({
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           onKeyUp={handleKeyUp}
-          onCompositionStart={handleCompositionStart}
-          onCompositionEnd={handleCompositionEnd}
           autoFocus
         />
       </div>
 
-      {/* 键盘组件 */}
+      <div className="practice-stats">
+        <div className="stat-item">
+          <span className="stat-label">速度</span>
+          <span className="stat-value">{stats.wpm} WPM</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-label">准确率</span>
+          <span className="stat-value">{stats.accuracy}%</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-label">正确</span>
+          <span className="stat-value correct">{stats.correct}</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-label">错误</span>
+          <span className="stat-value incorrect">{stats.incorrect}</span>
+        </div>
+      </div>
+
       <div className="keyboard-container">
         <Keyboard
           highlightedKey={highlightedKey}

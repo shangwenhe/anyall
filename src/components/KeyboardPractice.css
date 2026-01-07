@@ -75,13 +75,13 @@
   display: inline-block;
   font-size: 48px;
   font-weight: bold;
-  color: #007bff;
+  color: var(--primary-color);
   padding: 20px 40px;
   background-color: #f8f9fa;
-  border: 3px solid #007bff;
+  border: 3px solid var(--primary-color);
   border-radius: 12px;
   min-width: 150px;
-  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.2);
   animation: keyBounce 1s infinite;
 }
 
@@ -92,14 +92,14 @@
 
 .practice-tips {
   background-color: #e7f3ff;
-  border-left: 4px solid #007bff;
+  border-left: 4px solid var(--primary-color);
   padding: 15px;
   border-radius: 4px;
   margin-bottom: 30px;
 }
 
 .practice-tips h4 {
-  color: #0066cc;
+  color: var(--primary-color);
   margin-bottom: 10px;
   font-size: 16px;
 }
@@ -110,7 +110,7 @@
 }
 
 .practice-tips li {
-  color: #0066cc;
+  color: var(--primary-color);
   margin-bottom: 5px;
   padding-left: 15px;
   position: relative;
@@ -120,7 +120,7 @@
   content: '•';
   position: absolute;
   left: 0;
-  color: #007bff;
+  color: var(--primary-color);
   font-weight: bold;
 }
 

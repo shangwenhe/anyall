@@ -83,7 +83,7 @@
 }
 
 .stat-value.target {
-  color: #007bff;
+  color: var(--primary-color);
 }
 
 .stat-value.incorrect {
@@ -111,20 +111,22 @@
 .char {
   position: relative;
   display: inline-block;
-  min-width: 16px;
+  min-width: 20px;
+  /* margin-left: -3px;
+  margin-right: -3px; */
 }
 
 .char.correct {
   color: #28a745;
-  background-color: rgba(40, 167, 69, 0.1);
-  padding: 2px 4px;
+  /* background-color: rgba(40, 167, 69, 0.1); */
+  padding: 2px 0px;
   border-radius: 4px;
 }
 
 .char.incorrect {
   color: #dc3545;
-  background-color: rgba(220, 53, 69, 0.1);
-  padding: 2px 4px;
+  /* background-color: rgba(220, 53, 69, 0.1); */
+  padding: 2px 0px;
   border-radius: 4px;
   text-decoration: underline;
   text-decoration-color: #dc3545;
@@ -132,8 +134,8 @@
 }
 
 .char.current {
-  background-color: #fff3cd;
-  padding: 2px 4px;
+  /* background-color: #fff3cd; */
+  padding: 2px 0px;
   border-radius: 4px;
   animation: blink 0.8s infinite;
 }
@@ -171,14 +173,14 @@
 }
 
 .btn-primary {
-  background-color: #007bff;
+  background-color: var(--primary-color);
   color: white;
 }
 
 .btn-primary:hover {
-  background-color: #0069d9;
+  background-color: var(--primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
 }
 
 .btn-secondary {

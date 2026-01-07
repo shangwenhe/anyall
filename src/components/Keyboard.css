@@ -89,14 +89,14 @@
 }
 
 .key.correct {
-  background-color: #4caf50;
+  background-color: var(--success-color);
   border-color: #388e3c;
   color: white;
   animation: keyCorrect 0.2s ease;
 }
 
 .key.incorrect {
-  background-color: #f44336;
+  background-color: var(--error-color);
   border-color: #d32f2f;
   color: white;
   animation: keyIncorrect 0.2s ease;

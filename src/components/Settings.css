@@ -79,13 +79,13 @@
 }
 
 .setting-select:hover {
-  border-color: #007bff;
+  border-color: var(--primary-color);
 }
 
 .setting-select:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
 }
 
 .setting-description {
@@ -134,11 +134,11 @@
 }
 
 input:checked + .slider {
-  background-color: #007bff;
+  background-color: var(--primary-color);
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #007bff;
+  box-shadow: 0 0 1px var(--primary-color);
 }
 
 input:checked + .slider:before {
