@@ -1,0 +1,194 @@
+.typing-practice {
+  width: 100%;
+  padding: 20px;
+}
+
+.practice-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.practice-header h2 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.practice-header p {
+  color: #6c757d;
+  font-size: 16px;
+}
+
+.practice-stats {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.stat-value.correct {
+  color: #28a745;
+}
+
+.stat-value.incorrect {
+  color: #dc3545;
+}
+
+.text-display {
+  background-color: #f8f9fa;
+  padding: 30px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  border: 2px solid #e0e0e0;
+  min-height: 150px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.target-text {
+  font-size: 20px;
+  line-height: 1.6;
+  letter-spacing: 1px;
+  color: #333;
+  word-wrap: break-word;
+  text-align: center;
+}
+
+.char {
+  position: relative;
+  display: inline-block;
+  min-width: 16px;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.char.correct {
+  color: #28a745;
+  background-color: rgba(40, 167, 69, 0.1);
+}
+
+.char.incorrect {
+  color: #dc3545;
+  background-color: rgba(220, 53, 69, 0.1);
+  text-decoration: underline;
+  text-decoration-color: #dc3545;
+  text-decoration-thickness: 2px;
+}
+
+.char.current {
+  background-color: #fff3cd;
+  animation: blink 0.8s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.user-input {
+  position: absolute;
+  bottom: 0;
+  left: 30px;
+  right: 30px;
+  height: 0;
+  overflow: hidden;
+}
+
+.keyboard-container {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.hidden-input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.start-prompt,
+.complete-prompt {
+  text-align: center;
+  padding: 20px;
+  background-color: #e7f3ff;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.start-prompt h3,
+.complete-prompt h3 {
+  color: #0066cc;
+  margin-bottom: 10px;
+}
+
+.start-prompt p,
+.complete-prompt p {
+  color: #0066cc;
+  font-size: 14px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .typing-practice {
+    padding: 15px;
+  }
+
+  .practice-header h2 {
+    font-size: 20px;
+  }
+
+  .practice-header p {
+    font-size: 14px;
+  }
+
+  .practice-stats {
+    gap: 20px;
+  }
+
+  .stat-value {
+    font-size: 20px;
+  }
+
+  .text-display {
+    padding: 20px;
+    min-height: 120px;
+  }
+
+  .target-text {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .user-input {
+    left: 20px;
+    right: 20px;
+  }
+}

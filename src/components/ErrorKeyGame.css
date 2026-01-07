@@ -1,0 +1,274 @@
+.error-key-game {
+  width: 100%;
+  padding: 20px;
+}
+
+.game-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.game-header h2 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.game-header p {
+  color: #6c757d;
+  font-size: 16px;
+}
+
+.error-keys-info {
+  background-color: #fff3cd;
+  border-left: 4px solid #ffc107;
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 30px;
+}
+
+.error-keys-info h4 {
+  color: #856404;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.error-keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.error-key {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #ffeaa7;
+  border: 2px solid #ffc107;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #856404;
+  box-shadow: 0 2px 6px rgba(255, 193, 7, 0.2);
+}
+
+.game-stats {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.stat-value.correct {
+  color: #28a745;
+}
+
+.stat-value.target {
+  color: #007bff;
+}
+
+.stat-value.incorrect {
+  color: #dc3545;
+}
+
+.text-display {
+  background-color: #f8f9fa;
+  padding: 30px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  border: 2px solid #e0e0e0;
+  min-height: 150px;
+  position: relative;
+}
+
+.target-text {
+  font-size: 20px;
+  line-height: 1.6;
+  letter-spacing: 1px;
+  color: #333;
+  word-wrap: break-word;
+}
+
+.char {
+  position: relative;
+  display: inline-block;
+  min-width: 16px;
+}
+
+.char.correct {
+  color: #28a745;
+  background-color: rgba(40, 167, 69, 0.1);
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.char.incorrect {
+  color: #dc3545;
+  background-color: rgba(220, 53, 69, 0.1);
+  padding: 2px 4px;
+  border-radius: 4px;
+  text-decoration: underline;
+  text-decoration-color: #dc3545;
+  text-decoration-thickness: 2px;
+}
+
+.char.current {
+  background-color: #fff3cd;
+  padding: 2px 4px;
+  border-radius: 4px;
+  animation: blink 0.8s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.user-input {
+  position: absolute;
+  bottom: 0;
+  left: 30px;
+  right: 30px;
+  height: 0;
+  overflow: hidden;
+}
+
+.game-controls {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #0069d9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+}
+
+.game-complete,
+.no-errors {
+  text-align: center;
+  padding: 30px;
+  background-color: #d4edda;
+  border: 2px solid #c3e6cb;
+  border-radius: 12px;
+  margin-top: 30px;
+}
+
+.game-complete h3,
+.no-errors h3 {
+  color: #155724;
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.game-complete p,
+.no-errors p {
+  color: #155724;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .error-key-game {
+    padding: 15px;
+  }
+
+  .game-header h2 {
+    font-size: 20px;
+  }
+
+  .game-header p {
+    font-size: 14px;
+  }
+
+  .game-stats {
+    gap: 20px;
+  }
+
+  .stat-value {
+    font-size: 20px;
+  }
+
+  .text-display {
+    padding: 20px;
+    min-height: 120px;
+  }
+
+  .target-text {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .user-input {
+    left: 20px;
+    right: 20px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .error-keys-info {
+    padding: 12px;
+  }
+
+  .error-keys {
+    gap: 8px;
+  }
+
+  .error-key {
+    padding: 6px 12px;
+    font-size: 16px;
+  }
+}
